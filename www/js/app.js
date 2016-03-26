@@ -28,6 +28,13 @@ inventoryApp.factory('inventoryAppFactory',function(){
     // save storage areas using localStorage with the storageArea_key as the key
     save: function(storage){
       window.localStorage['storageArea_key'] = angular.toJson(storage);
+    },
+    // set last active storage for us to add items to the corect storage areas
+    setLastActiveStorage: function(index) {
+      window.localStorage['lastActiveStorage_key'] = index;
+    },
+    getLastActiveStorage: function () {
+      return parseInt(window.localStorage['lastActiveStorage_key']) || 0;
     }
   }
 });
@@ -37,16 +44,31 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   $scope.data = {
     showDelete : false
   };
+  // store all storage areas into storages array when we load
+  $scope.storages = inventoryAppFactory.load();
 
-  // createStorage
+  // createStorage function
   $scope.createStorage = function(storageInput){
     var newStorage_var = inventoryAppFactory.newStorage(storageInput);
     $scope.storages.push(newStorage_var);
     inventoryAppFactory.save($scope.storages);
+    $scope.storageModal.hide();
+    // set the latest addition of storage area as the actove storage area
+    $scope.selectProject(newStorage_var, $scope.storages.length - 1);
+  };
+  // Remove storage when delete button is clicked
+  $scope.removeStorage = function ($index){
+    $scope.storages.splice($index, 1);
+    inventoryAppFactory.save($scope.storages);
   };
 
-  $scope.storages = inventoryAppFactory.load();
+  // set the current active storage to the last active storage
+  $scope.activeStorage = $scope.storages[inventoryAppFactory.getLastActiveStorage()];
 
+  $scope.selectStorage = function (storage, $index){
+    $scope.activeStorage = storage;
+    console.log($index);
+  };
   // modal function for Items
   $ionicModal.fromTemplateUrl('item-modal.html',{
     // give the modal access to the parent scope
