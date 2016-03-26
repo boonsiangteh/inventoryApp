@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="myInventory" ng-controller= "myInventoryCtrl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+
+    <!-- Icons for the options and SideMenu  -->
+    <script src="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"></script>
+
+  </head>
+  <body>
+    <ion-side-menus>
+      <!-- Center content -->
+      <ion-side-menu-content>
+        <ion-header-bar align-title="center" class="bar-dark">
+          <div class="buttons">
+            <button class="button">
+              <i class="ion-navicon-round"> Storage Areas</i>
+            </button>
+          </div>
+          <h1 class="title">Items</h1>
+          <div class="buttons">
+            <button class="button" ng-click="addItem()"><i class="ion-plus-round"> Add Item</i></button>
+          </div>
+        </ion-header-bar>
+        <ion-content align = "center">
+          <!-- repeat the list of items here ! -->
+          <ion-list>
+            <ion-item ng-repeat="item in items" >
+              Hello, {{item.name}}!
+              <!-- add a delete button for items  -->
+              <!-- <ion-delete-button class="ion-minus-circled"
+                         ng-click="items.splice($index, 1)">
+              </ion-delete-button> -->
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ion-side-menu-content>
+
+      <!-- Left menu -->
+      <ion-side-menu side="left">
+        <ion-header-bar align-title="center" class="bar-dark">
+          <div>
+            <button class="button button-icon icon ion-minus-circled" ng-click="data.showDelete = !data.showDelete"></button>
+          </div>
+          <h1 class="title">Storage Area</h1>
+          <div class="buttons">
+            <!-- create button to add storage areas -->
+            <button class="button" ng-click="addStorage()"><i class="ion-plus-round"></i></button>
+          </div>
+        </ion-header-bar>
+        <ion-content align="center">
+          <!-- repeat the list of Storage Area here ! -->
+          <ion-list show-delete="data.showDelete">
+            <ion-item ng-repeat="storage in storageAreas" ng-click="selectStorage(storage, $index)" ng-class= "{active: activeStorage == storage}">
+              {{storage.title}}
+              <!-- add a delete button for items  -->
+              <ion-delete-button class="ion-minus-circled"
+                         ng-click="removeStorage($index)">
+                         <!-- storageAreas.splice($index, 1) -->
+              </ion-delete-button>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ion-side-menu>
+    </ion-side-menus>
+
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<!-- This HTML file contains the modal for storage area -->
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Create New Storage</h1>
+    <div class="buttons">
+      <button class="button" ng-click="closeStorageModal()"><i class="ion-android-cancel"> Cancel</i></button>
+    </div>
+  </ion-header-bar>
+  <ion-content align= 'center'>
+    <form ng-submit="createStorage(storage)">
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Storage Name e.g Upper Kitchen, Freezer, etc etc" ng-model="storage">
+        </label>
+      </div>
+      <div class="padding">
+        <button type="submit"class="button button-block button-positive">Submit</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

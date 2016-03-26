@@ -1,0 +1,24 @@
+<!-- This HTML file contains the modal for adding items  -->
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Create New Item</h1>
+    <div class="buttons">
+      <button class="button" ng-click="closeItemModal()"><i class="ion-android-cancel"> Cancel</i></button>
+    </div>
+  </ion-header-bar>
+  <ion-content align= 'center'>
+    <form ng-submit="createItem(itemName)">
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Item Name e.g fries, beef burgers etc etc" ng-model="itemName.name">
+        </label>
+        <!-- <label class="item item-input">
+          <input type="text" placeholder="Quantity" ng-model="quantity">
+        </label> -->
+      </div>
+      <div class="padding">
+        <button class="button button-block button-positive">Submit</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>
