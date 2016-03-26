@@ -11,7 +11,7 @@ inventoryApp.factory('inventoryAppFactory',function(){
     // load all storage areas
     load : function () {
       var storageArea = window.localStorage['storageArea_key'];
-      console.log(storageArea);
+      // console.log(storageArea);
       // check if storageArea exists
       if (storageArea !== 'undefined'){
         return angular.fromJson(storageArea)
@@ -28,7 +28,7 @@ inventoryApp.factory('inventoryAppFactory',function(){
     // save storage areas using localStorage with the storageArea_key as the key
     save: function(storage){
       window.localStorage['storageArea_key'] = angular.toJson(storage);
-      console.log(window.localStorage['storageArea_key']);
+      // console.log(window.localStorage['storageArea_key']);
     },
     // set last active storage for us to add items to the corect storage areas
     setLastActiveStorage: function(index) {
@@ -75,7 +75,7 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   $scope.selectStorage = function (storage, $index){
     $scope.activeStorage = storage;
     inventoryAppFactory.setLastActiveStorage($index);
-    console.log(window.localStorage['lastActiveStorage_key']);
+    // console.log(window.localStorage['lastActiveStorage_key']);
   };
 
   $scope.createItem = function (itemName) {
