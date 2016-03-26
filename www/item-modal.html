@@ -7,10 +7,10 @@
     </div>
   </ion-header-bar>
   <ion-content align= 'center'>
-    <form ng-submit="createItem(itemName)">
+    <form id ="itemForm" ng-submit="createItem(itemName)">
       <div class="list">
         <label class="item item-input">
-          <input type="text" placeholder="Item Name e.g fries, beef burgers etc etc" ng-model="itemName.name">
+          <input type="text" placeholder="Item Name e.g fries, beef burgers etc etc" ng-model="itemName">
         </label>
         <!-- <label class="item item-input">
           <input type="text" placeholder="Quantity" ng-model="quantity">

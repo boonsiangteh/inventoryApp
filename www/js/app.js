@@ -28,6 +28,7 @@ inventoryApp.factory('inventoryAppFactory',function(){
     // save storage areas using localStorage with the storageArea_key as the key
     save: function(storage){
       window.localStorage['storageArea_key'] = angular.toJson(storage);
+      console.log(window.localStorage['storageArea_key']);
     },
     // set last active storage for us to add items to the corect storage areas
     setLastActiveStorage: function(index) {
@@ -50,11 +51,16 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   // createStorage function
   $scope.createStorage = function(storageInput){
     var newStorage_var = inventoryAppFactory.newStorage(storageInput);
+    if (storageInput == null) {
+      prompt("No Value entered");
+      return ;
+    }
     $scope.storages.push(newStorage_var);
     inventoryAppFactory.save($scope.storages);
-    $scope.storageModal.hide();
+    $scope.closeStorageModal();
+    document.getElementById('storageForm').reset();
     // set the latest addition of storage area as the actove storage area
-    $scope.selectProject(newStorage_var, $scope.storages.length - 1);
+    $scope.selectStorage(newStorage_var, $scope.storages.length - 1);
   };
   // Remove storage when delete button is clicked
   $scope.removeStorage = function ($index){
@@ -65,10 +71,29 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   // set the current active storage to the last active storage
   $scope.activeStorage = $scope.storages[inventoryAppFactory.getLastActiveStorage()];
 
+  // selectStorage function acts to set the selected storage as the active storage and remember its index as well
   $scope.selectStorage = function (storage, $index){
     $scope.activeStorage = storage;
-    console.log($index);
+    inventoryAppFactory.setLastActiveStorage($index);
+    console.log(window.localStorage['lastActiveStorage_key']);
   };
+
+  $scope.createItem = function (itemName) {
+    if ($scope.activeStorage == null || itemName == null){
+      prompt("No value entered. please enter something");
+      return ;
+    }
+    $scope.activeStorage.items.push({ name: itemName });
+    inventoryAppFactory.save($scope.storages);
+    $scope.closeItemModal();
+    document.getElementById('itemForm').reset();
+  };
+
+  $scope.removeItems = function ($index){
+    $scope.activeStorage.items.splice($index, 1);
+    inventoryAppFactory.save($scope.storages);
+  };
+
   // modal function for Items
   $ionicModal.fromTemplateUrl('item-modal.html',{
     // give the modal access to the parent scope

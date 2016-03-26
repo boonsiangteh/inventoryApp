@@ -35,20 +35,20 @@
               <i class="ion-navicon-round"> Storage Areas</i>
             </button>
           </div>
-          <h1 class="title">Items</h1>
+          <h1 class="title">{{activeStorage.title}}</h1>
           <div class="buttons">
             <button class="button" ng-click="addItem()"><i class="ion-plus-round"> Add Item</i></button>
           </div>
         </ion-header-bar>
         <ion-content align = "center">
           <!-- repeat the list of items here ! -->
-          <ion-list>
-            <ion-item ng-repeat="item in items" >
+          <ion-list show-delete = "true">
+            <ion-item ng-repeat="item in activeStorage.items" >
               Hello, {{item.name}}!
               <!-- add a delete button for items  -->
-              <!-- <ion-delete-button class="ion-minus-circled"
-                         ng-click="items.splice($index, 1)">
-              </ion-delete-button> -->
+              <ion-delete-button class="ion-minus-circled"
+                         ng-click="removeItems($index)">
+              </ion-delete-button>
             </ion-item>
           </ion-list>
         </ion-content>
