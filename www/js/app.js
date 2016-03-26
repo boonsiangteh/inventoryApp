@@ -8,8 +8,18 @@ var inventoryApp = angular.module('myInventory', ['ionic']);
 
 inventoryApp.factory('inventoryAppFactory',function(){
   return {
+    // load all storage areas
+    load : function () {
+      var storageArea = window.localStorage['storageArea_key'];
+      console.log(storageArea);
+      // check if storageArea exists
+      if (storageArea !== 'undefined'){
+        return angular.fromJson(storageArea)
+      }
+        return [];
+    },
     // save all storage areas
-    createStorage: function(storageTitle){
+    newStorage: function(storageTitle){
       return {
         title : storageTitle,
         items : []
@@ -18,27 +28,25 @@ inventoryApp.factory('inventoryAppFactory',function(){
     // save storage areas using localStorage with the storageArea_key as the key
     save: function(storage){
       window.localStorage['storageArea_key'] = angular.toJson(storage);
-    },
-    // load all storage areas
-    load : function(){
-      var storageArea = window.localStorage['storageArea_key'];
-      // check if storageArea exists
-      if ( storageArea != null){
-        return angular.fromJson(storageArea)
-      } else {
-        return [];
-      };
     }
   }
 });
 // controller
-inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal) {
+inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, inventoryAppFactory) {
   //to show delete button beside each and every storage area
-$scope.data = {
-  showDelete : false
-};
-  // load all storage areas if any and set it to storageAreas
-  // note that storageAreas will be an array
+  $scope.data = {
+    showDelete : false
+  };
+
+  // createStorage
+  $scope.createStorage = function(storageInput){
+    var newStorage_var = inventoryAppFactory.newStorage(storageInput);
+    $scope.storages.push(newStorage_var);
+    inventoryAppFactory.save($scope.storages);
+  };
+
+  $scope.storages = inventoryAppFactory.load();
+
   // modal function for Items
   $ionicModal.fromTemplateUrl('item-modal.html',{
     // give the modal access to the parent scope

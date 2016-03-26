@@ -69,7 +69,7 @@
         <ion-content align="center">
           <!-- repeat the list of Storage Area here ! -->
           <ion-list show-delete="data.showDelete">
-            <ion-item ng-repeat="storage in storageAreas" ng-click="selectStorage(storage, $index)" ng-class= "{active: activeStorage == storage}">
+            <ion-item ng-repeat="storage in storages" ng-click="selectStorage(storage, $index)" ng-class= "{active: activeStorage == storage}">
               {{storage.title}}
               <!-- add a delete button for items  -->
               <ion-delete-button class="ion-minus-circled"
