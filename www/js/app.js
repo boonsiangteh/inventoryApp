@@ -6,6 +6,31 @@
 var inventoryApp = angular.module('myInventory', ['ionic']);
 // create a factory to create new stoareg areas, save and load all storage areas
 
+inventoryApp.factory('inventoryAppFactory',function(){
+  return {
+    // save all storage areas
+    createStorage: function(storageTitle){
+      return {
+        title : storageTitle,
+        items : []
+      }
+    },
+    // save storage areas using localStorage with the storageArea_key as the key
+    save: function(storage){
+      window.localStorage['storageArea_key'] = angular.toJson(storage);
+    },
+    // load all storage areas
+    load : function(){
+      var storageArea = window.localStorage['storageArea_key'];
+      // check if storageArea exists
+      if ( storageArea != null){
+        return angular.fromJson(storageArea)
+      } else {
+        return [];
+      };
+    }
+  }
+});
 // controller
 inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal) {
   //to show delete button beside each and every storage area
