@@ -13,7 +13,7 @@ inventoryApp.factory('inventoryAppFactory',function(){
       var storageArea = window.localStorage['storageArea_key'];
       // console.log(storageArea);
       // check if storageArea exists
-      if (storageArea !== 'undefined'){
+      if (storageArea){
         return angular.fromJson(storageArea)
       }
         return [];
@@ -51,8 +51,8 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   // createStorage function
   $scope.createStorage = function(storageInput){
     var newStorage_var = inventoryAppFactory.newStorage(storageInput);
-    if (storageInput == null) {
-      prompt("No Value entered");
+    if (!storageInput) {
+      alert("Nothing entered. Please enter a storage.");
       return ;
     }
     $scope.storages.push(newStorage_var);
@@ -66,6 +66,7 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   $scope.removeStorage = function ($index){
     $scope.storages.splice($index, 1);
     inventoryAppFactory.save($scope.storages);
+    $scope.activeStorage = $scope.storages[0];
   };
 
   // set the current active storage to the last active storage
@@ -79,14 +80,15 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   };
 
   $scope.createItem = function (itemName) {
-    if ($scope.activeStorage == null || itemName == null){
-      prompt("No value entered. please enter something");
+    if (!$scope.activeStorage || !itemName){
+      alert("Nothing entered. Please enter an item.");
       return ;
     }
     $scope.activeStorage.items.push({ name: itemName });
     inventoryAppFactory.save($scope.storages);
     $scope.closeItemModal();
-    document.getElementById('itemForm').reset();
+    itemName.name = ''; 
+    console.log(itemName);
   };
 
   $scope.removeItems = function ($index){
@@ -110,6 +112,7 @@ inventoryApp.controller('myInventoryCtrl', function ($scope, $ionicModal, invent
   // create a method to close modal
   $scope.closeItemModal = function(){
     $scope.itemModal.hide();
+    document.getElementById('itemForm').reset();
   };
   // cleanup the modal once we are done with it
   $scope.$on('$destroy', function(){

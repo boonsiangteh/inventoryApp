@@ -44,7 +44,7 @@
           <!-- repeat the list of items here ! -->
           <ion-list show-delete = "true">
             <ion-item ng-repeat="item in activeStorage.items" >
-              Hello, {{item.name}}!
+              {{item.name}}
               <!-- add a delete button for items  -->
               <ion-delete-button class="ion-minus-circled"
                          ng-click="removeItems($index)">
